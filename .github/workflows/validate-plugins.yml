@@ -53,7 +53,7 @@ jobs:
       - name: Check plugin frontend bundles
         run: |
           node --check plugins/hermes-dashboard-plugins/dashboard/dist/index.js
-          node --check plugins/hermes-hackathon-hub/dashboard/dist/index.js
+          node --check plugins/hermes-hackathon-hub/dashboard/dist/index.candidate-align.js
           node --check plugins/hermes-theme-hub/dashboard/dist/index.js
           node --check plugins/plugin-publisher/dashboard/dist/index.js
 
