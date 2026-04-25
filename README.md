@@ -48,6 +48,11 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 
 ## Plugins
 
+Plugin enablement is managed locally through
+[`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins), which adds the
+`/plugins` dashboard page and lets installed dashboard plugins be enabled or
+disabled without editing Hermes core.
+
 | Plugin | Status | Purpose |
 | --- | --- | --- |
 | [`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins) | Published | Adds the `/plugins` catalog page, origin labels, validation state, and enable controls. |
