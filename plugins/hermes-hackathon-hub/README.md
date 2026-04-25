@@ -90,6 +90,10 @@ Open the dashboard:
 http://127.0.0.1:9119
 ```
 
+This is a local-only loopback URL. It is reachable only from the machine
+running `hermes dashboard`; it is not a public support, contact, or remote
+access endpoint.
+
 Then open the navigation sidebar and select **Plugins**. The active dashboard
 route should become `/plugins`.
 

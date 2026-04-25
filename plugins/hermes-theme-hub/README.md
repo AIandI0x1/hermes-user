@@ -55,5 +55,9 @@ python -m py_compile dashboard/plugin_api.py
 Open the dashboard and select **Theme Hub**:
 
 ```text
-#edit here
+http://127.0.0.1:9119/theme-hub
 ```
+
+This is a local-only loopback URL. It is reachable only from the machine
+running `hermes dashboard`; it does not expose the maintainer or this repository
+to the public internet.

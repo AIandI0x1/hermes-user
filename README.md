@@ -21,6 +21,14 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 <HERMES_HOME>/plugins/<plugin-name>
 ```
 
+## Local Dashboard URLs
+
+Dashboard links such as `http://127.0.0.1:9119/plugins`,
+`http://127.0.0.1:9119/theme-hub`, and
+`http://127.0.0.1:9119/hackathon-hub` are local loopback URLs. They are only
+reachable from the machine running `hermes dashboard` and are not public
+support, contact, or remote access endpoints.
+
 ## Plugins
 
 | Plugin | Status | Description |

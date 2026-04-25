@@ -48,3 +48,10 @@ unless that claim can be verified against an official Hermes trust root.
 Plugins that create repositories, push to GitHub, post to Discord, upload files,
 or transmit data to third parties must show the destination and require explicit
 confirmation before the action.
+
+## Local Dashboard Routes
+
+Dashboard routes under `http://127.0.0.1:9119` are loopback-only development
+and runtime URLs. They are only reachable from the local machine running Hermes
+dashboard and should not be presented as public contact, support, webhook, or
+remote service URLs.
