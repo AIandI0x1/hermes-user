@@ -25,13 +25,13 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 
 | Plugin | Status | Description |
 | --- | --- | --- |
-| [`hermes-plugin-publisher`](plugins/hermes-plugin-publisher) | Published | Dashboard plugin for preparing, checking, and publishing Hermes user plugins to GitHub. |
+| [`plugin-publisher`](plugins/plugin-publisher) | Published | Dashboard plugin for preparing, checking, and publishing Hermes user plugins to GitHub. |
 
 ## Repository Layout
 
 ```text
 plugins/
-  hermes-plugin-publisher/
+  plugin-publisher/
 ```
 
 Each plugin should own its frontend, docs, tools, skills, tests, and metadata
