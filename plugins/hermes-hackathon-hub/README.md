@@ -12,6 +12,8 @@ packages, generates Discord-ready review posts, and keeps certification claims
 honest. After the event, the same surface is designed to grow into a
 Discord-centered community plugin review hub.
 
+It follows the collection-level [Hermes User Plugin Contract](https://github.com/AIandI0x1/hermes-user/blob/main/PLUGIN_CONTRACT.md).
+
 ## Status
 
 Working MVP. The dashboard tab, local plugin card catalog, details view, local

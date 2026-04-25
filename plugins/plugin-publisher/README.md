@@ -4,6 +4,8 @@ Self-contained Hermes user plugin for preparing plugins for GitHub publication.
 
 ![Plugin Publisher dashboard screenshot](screenshots/plugin-publisher-dashboard.png)
 
+This plugin follows the collection-level [Hermes User Plugin Contract](https://github.com/AIandI0x1/hermes-user/blob/main/PLUGIN_CONTRACT.md).
+
 It provides:
 
 - `hermes_plugin_publish_plan` tool

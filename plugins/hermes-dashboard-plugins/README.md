@@ -7,6 +7,8 @@ third-party plugins; shows plugin metadata and local validation status; manages
 dashboard plugin enablement; and keeps plugin-owned frontend changes out of
 Hermes core.
 
+It follows the collection-level [Hermes User Plugin Contract](https://github.com/AIandI0x1/hermes-user/blob/main/PLUGIN_CONTRACT.md).
+
 ## Status
 
 Working MVP.

@@ -29,6 +29,13 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 | [`hermes-hackathon-hub`](plugins/hermes-hackathon-hub) | Published | Dashboard plugin for Hermes hackathon submission validation, Discord drafts, and plugin review workflow. |
 | [`plugin-publisher`](plugins/plugin-publisher) | Published | User plugin that audits Hermes plugins and prepares GitHub publishing commands. |
 
+## Plugin Contract
+
+This collection follows the [Hermes User Plugin Contract](PLUGIN_CONTRACT.md).
+Plugins should be portable folders installed under `~/.hermes/plugins/` or the
+active `<HERMES_HOME>/plugins/` directory, with each plugin owning its own
+frontend, docs, tools, skills, tests, screenshots, and metadata.
+
 ## Screenshots
 
 ### Hermes Dashboard Plugins
