@@ -2,7 +2,7 @@
   "name": "hermes-theme-hub",
   "label": "Theme Hub",
   "description": "Discover installed and plugin-provided Hermes dashboard themes.",
-  "icon": "Palette",
+  "icon": "Sparkles",
   "version": "0.1.0",
   "tab": {
     "path": "/theme-hub",
