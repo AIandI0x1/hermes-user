@@ -165,7 +165,12 @@
 
   function buildSubmission(form, selected) {
     const manifest = selected && selected.manifest ? selected.manifest : {};
+    const summary = selected && selected.summary ? selected.summary : {};
     const pluginName = form.pluginName || manifest.label || manifest.name || "Hermes Plugin";
+    const pitch = form.pitch || manifest.description || "A dashboard plugin for building, validating, and submitting Hermes plugins through the Discord review workflow.";
+    const repoUrl = form.repoUrl || summary.repo_url || (selected && selected.path) || "<GitHub repository URL>";
+    const mediaUrls = form.mediaUrls || summary.media_url || "<Screenshot or video URLs, or note that assets are attached in Discord>";
+    const installCommand = form.installCommand || summary.install_command || INSTALL_COMMAND;
     const validation = selected
       ? [
           "- Structure: " + (selected.ok ? "passed" : "failed"),
@@ -180,17 +185,17 @@
       "Hermes Dashboard Plugin Submission: " + pluginName,
       "",
       "Short pitch:",
-      form.pitch || "A dashboard plugin for building, validating, and submitting Hermes plugins through the Discord review workflow.",
+      pitch,
       "",
       "Repository:",
-      form.repoUrl || "<GitHub repository URL>",
+      repoUrl,
       "",
       "Screenshots / video:",
-      form.mediaUrls || (selected && selected.summary && selected.summary.media_url) || "<Screenshot or video URLs, or note that assets are attached in Discord>",
+      mediaUrls,
       "",
       "Install:",
       "```bash",
-      form.installCommand || INSTALL_COMMAND,
+      installCommand,
       "```",
       "",
       "Validation:",
@@ -212,9 +217,9 @@
     const [copyState, setCopyState] = useState("");
     const draftRef = useRef(null);
     const [form, setForm] = useState({
-      pluginName: "Hermes Hackathon Hub",
-      pitch: "A dashboard plugin for building, validating, and submitting Hermes plugins through the Discord review workflow.",
-      repoUrl: GITHUB_REPO,
+      pluginName: "",
+      pitch: "",
+      repoUrl: "",
       mediaUrls: "",
       installCommand: INSTALL_COMMAND,
       notes: "MVP does not auto-post to Discord. It generates a review-ready submission and keeps certification claims honest.",
