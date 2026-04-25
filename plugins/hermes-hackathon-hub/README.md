@@ -138,6 +138,7 @@ hermes-hackathon-hub/
 ├── LICENSE
 ├── docs/
 │   ├── CREATION_PLAN.md
+│   ├── DISCORD_SUBMISSION_POST.md
 │   ├── DISCORD_REVIEW_PROTOCOL.md
 │   ├── GITHUB.md
 │   ├── IMPLEMENTATION_PLAN.md
@@ -207,4 +208,5 @@ by the Hermes team.
 - [Roadmap](docs/ROADMAP.md)
 - [TODO](docs/TODO.md)
 - [GitHub publishing](docs/GITHUB.md)
+- [Final Discord submission post](docs/DISCORD_SUBMISSION_POST.md)
 - [Discord review protocol](docs/DISCORD_REVIEW_PROTOCOL.md)

@@ -27,7 +27,7 @@ HERMES_USER_PLUGINS = [
     {
         "name": "hermes-dashboard-plugins",
         "label": "Hermes Dashboard Plugins",
-        "description": "Adds the Plugins catalog page, origin labels, validation state, and enable controls.",
+        "description": "Adds the `/plugins` catalog page, origin labels, validation state, and local enable/disable controls.",
     },
     {
         "name": "hermes-hackathon-hub",
@@ -261,9 +261,9 @@ def validate_plugin(root: Path, source: str = "unknown") -> dict[str, Any]:
 def collection_submission_candidate() -> dict[str, Any]:
     repo_metadata = fetch_github_repo_metadata(HERMES_USER_REPO)
     media_url = str(repo_metadata.get("media_url") or HERMES_USER_SOCIAL_PREVIEW)
-    description = str(
-        repo_metadata.get("description")
-        or "Self-contained Hermes Agent user plugin collection with plugin manager, hackathon hub, publisher, examples, validation, and CI."
+    description = (
+        "Self-contained Hermes Agent user plugin collection for dashboard plugins, "
+        "theme hubs, validation, publishing, and Discord-ready hackathon submissions."
     )
     manifest = {
         "name": "hermes-user",

@@ -8,7 +8,7 @@
     "path": "/hackathon-hub",
     "position": "after:skills"
   },
-  "entry": "dist/index.draft-attribution.js",
+  "entry": "dist/index.final-discord-draft.js",
   "css": "dist/style.candidate-align.css",
   "api": "plugin_api.py"
 }

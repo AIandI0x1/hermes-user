@@ -38,37 +38,38 @@ https://discord.com/channels/1053877538025386074/1497492452452470875
 
 ## Discord Post Template
 
-```text
-Hermes Dashboard Plugin Submission: <Plugin Name>
+````text
+**Hermes Dashboard Plugin Submission: <Plugin Name>**
+<GitHub URL>
 
-Short pitch:
+**Short pitch**
 <One or two sentences explaining what the plugin does and why it is useful. For
 Hackathon Hub, lead with: "A plugin for building and submitting Hermes plugins,
 inside Hermes.">
 
-Repository:
-<GitHub URL>
+**Screenshots / video**
+Attached below.
 
-Screenshots / video:
-<URLs or note that assets are attached in Discord>
-
-Install:
+**Install**
 ```bash
 mkdir -p ~/.hermes/plugins
-git clone <GitHub URL> ~/.hermes/plugins/<plugin-folder>
-curl http://127.0.0.1:9119/api/dashboard/plugins/rescan
+REPO_URL="<repository URL above>"
+git clone "$REPO_URL" /tmp/hermes-user
+cp -R /tmp/hermes-user/plugins/<plugin-name> ~/.hermes/plugins/<plugin-name>
+export HERMES_DASHBOARD_URL="${HERMES_DASHBOARD_URL:-http://127.0.0.1:9119}"
+curl "$HERMES_DASHBOARD_URL/api/dashboard/plugins/rescan"
 ```
 
-Validation:
+**Validation**
 - Structure: <passed|warnings|failed>
 - Manifest: <passed|warnings|failed>
 - Entry bundle: <passed|warnings|failed>
 - Backend API: <present|not present|failed>
 - Trust: <unsigned|locally validated|official verification unavailable>
 
-Notes:
+**Notes**
 <Compatibility notes, known limitations, or review questions.>
-```
+````
 
 ## Review Statuses
 
