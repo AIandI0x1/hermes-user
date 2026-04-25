@@ -1,0 +1,348 @@
+.hhh-page {
+  display: flex;
+  flex-direction: column;
+  gap: calc(1rem * var(--spacing-mul, 1));
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.hhh-title-row,
+.hhh-plugin-card-head,
+.hhh-chip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hhh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: calc(1rem * var(--spacing-mul, 1));
+  min-width: 0;
+}
+
+.hhh-grid-wide {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+}
+
+.hhh-stack,
+.hhh-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hhh-muted,
+.hhh-path {
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.hhh-path {
+  display: block;
+  margin-top: 0.25rem;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+}
+
+.hhh-panel-intro {
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+}
+
+.hhh-page-title {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.hhh-plugin-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+  min-width: 0;
+}
+
+.hhh-plugin-card {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: color-mix(in srgb, var(--color-card) 92%, transparent);
+  color: var(--color-card-foreground);
+  text-align: left;
+  cursor: pointer;
+  min-height: 13rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hhh-plugin-card:hover,
+.hhh-plugin-card-selected {
+  border-color: var(--color-ring);
+}
+
+.hhh-plugin-card-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: start;
+  flex-wrap: nowrap;
+  min-width: 0;
+  column-gap: 0.75rem;
+  row-gap: 0.5rem;
+}
+
+.hhh-plugin-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  place-items: center;
+  color: var(--color-primary);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  flex: 0 0 auto;
+}
+
+.hhh-cubes-icon {
+  display: block;
+  width: 1.35rem;
+  height: 1.35rem;
+  background: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.hhh-card-cubes-icon {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.hhh-sidebar-cubes-icon {
+  display: inline-block;
+  background: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.hhh-plugin-card-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hhh-switch {
+  width: 2.25rem;
+  height: 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-muted) 70%, transparent);
+  cursor: pointer;
+  padding: 0.12rem;
+  flex: 0 0 auto;
+}
+
+.hhh-switch:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.hhh-switch-thumb {
+  display: block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  background: var(--color-muted-foreground);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.hhh-switch-on {
+  border-color: var(--color-primary);
+}
+
+.hhh-switch-on .hhh-switch-thumb {
+  transform: translateX(1rem);
+  background: var(--color-primary);
+}
+
+.hhh-plugin-card-title strong,
+.hhh-plugin-card-title span {
+  display: block;
+}
+
+.hhh-plugin-card-title strong {
+  font-size: 0.98rem;
+  line-height: 1.25;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.hhh-plugin-card-title span,
+.hhh-plugin-description {
+  color: var(--color-muted-foreground);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.hhh-plugin-card-title span {
+  margin-top: 0.18rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  overflow-wrap: anywhere;
+}
+
+.hhh-plugin-description {
+  margin: 0;
+  min-height: 3.6rem;
+}
+
+.hhh-chip-row {
+  margin-top: auto;
+  gap: 0.5rem;
+  margin-bottom: 0;
+}
+
+.hhh-chip {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.45rem;
+  color: var(--color-muted-foreground);
+  font-size: 0.72rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.hhh-chip-primary {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.hhh-chip-upstream {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.hhh-chip-user {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.hhh-chip-third-party {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+.hhh-status-ok {
+  color: var(--color-success);
+}
+
+.hhh-status-warn {
+  color: var(--color-warning);
+}
+
+.hhh-status-error,
+.hhh-error {
+  color: var(--color-destructive);
+}
+
+.hhh-section-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.hhh-issues {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+}
+
+.hhh-trust {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  background: color-mix(in srgb, var(--color-card) 84%, transparent);
+}
+
+.hhh-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.hhh-detail-label {
+  display: block;
+  color: var(--color-muted-foreground);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.hhh-detail-grid strong {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .hhh-page {
+    gap: 0.85rem;
+  }
+
+  .hhh-page-title {
+    font-size: 1.2rem;
+  }
+
+  .hhh-plugin-card {
+    min-height: auto;
+    padding: 0.8rem;
+  }
+
+  .hhh-chip-row {
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .hhh-title-row {
+    align-items: flex-start;
+  }
+
+  .hhh-plugin-card-head {
+    gap: 0.6rem;
+  }
+
+  .hhh-plugin-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .hhh-switch {
+    width: 2rem;
+    height: 1.1rem;
+  }
+
+  .hhh-switch-thumb {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .hhh-switch-on .hhh-switch-thumb {
+    transform: translateX(0.85rem);
+  }
+}

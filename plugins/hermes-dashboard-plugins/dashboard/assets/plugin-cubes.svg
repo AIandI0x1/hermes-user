@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Plugin cubes">
+  <g fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M256 39 379 96 256 153 133 96 256 39Z"/>
+    <path d="M133 96v128l123 64V153L133 96Z"/>
+    <path d="M379 96v128l-123 64V153l123-57Z"/>
+    <path d="M132 224 256 282 132 340 18 282l114-58Z"/>
+    <path d="M18 282v128l114 63V340L18 282Z"/>
+    <path d="M256 282v128l-124 63V340l124-58Z"/>
+    <path d="M380 224 494 282 380 340 256 282l124-58Z"/>
+    <path d="M256 282v128l124 63V340l-124-58Z"/>
+    <path d="M494 282v128l-114 63V340l114-58Z"/>
+  </g>
+</svg>

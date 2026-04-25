@@ -1,0 +1,9 @@
+name: hermes-dashboard-plugins
+version: 0.1.0
+description: Dashboard sidebar plugin that adds the Plugins catalog page and plugin enable controls.
+author: 0x1-Main
+license: MIT
+origin: user
+kind: standalone
+provides_hooks: []
+provides_tools: []
