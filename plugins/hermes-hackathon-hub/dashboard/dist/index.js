@@ -2,9 +2,10 @@
   "use strict";
 
   const DISCORD_CHANNEL = "https://discord.com/channels/1053877538025386074/1497492452452470875";
-  const GITHUB_REPO = "https://github.com/AIandI0x1/hermes-hackathon-hub";
+  const GITHUB_REPO = "https://github.com/AIandI0x1/hermes-user";
   const INSTALL_COMMAND = "mkdir -p ~/.hermes/plugins\n" +
-    "git clone " + GITHUB_REPO + " ~/.hermes/plugins/hermes-hackathon-hub\n" +
+    "git clone " + GITHUB_REPO + ".git /tmp/hermes-user\n" +
+    "cp -R /tmp/hermes-user/plugins/<plugin-name> ~/.hermes/plugins/<plugin-name>\n" +
     "curl http://127.0.0.1:9119/api/dashboard/plugins/rescan";
 
   const SDK = window.__HERMES_PLUGIN_SDK__;
@@ -100,16 +101,18 @@
       h("div", { className: "hhh-chip-row" },
         h("span", { className: "hhh-chip" }, "errors " + (plugin.errors || []).length),
         h("span", { className: "hhh-chip" }, "warnings " + (plugin.warnings || []).length),
+        plugin.source === "github" ? h("span", { className: "hhh-chip hhh-chip-primary" }, "collection") : null,
         h("span", { className: "hhh-chip" }, trustLabel(plugin.trust)),
       ),
     );
   }
 
   function checklistItems(selected, form) {
+    const fetchedMedia = selected && selected.summary && selected.summary.media_url ? selected.summary.media_url : "";
     return [
       { label: "Local plugin structure validates", done: Boolean(selected && selected.ok) },
       { label: "GitHub repository URL is present", done: Boolean(form.repoUrl.trim()) },
-      { label: "Screenshot or video link is present", done: Boolean(form.mediaUrls.trim()) },
+      { label: "Screenshot or video link is present", done: Boolean(form.mediaUrls.trim() || fetchedMedia) },
       { label: "Install command is present", done: Boolean(form.installCommand.trim()) },
       { label: "Short pitch is written", done: Boolean(form.pitch.trim()) },
     ];
@@ -183,7 +186,7 @@
       form.repoUrl || "<GitHub repository URL>",
       "",
       "Screenshots / video:",
-      form.mediaUrls || "<Screenshot or video URLs, or note that assets are attached in Discord>",
+      form.mediaUrls || (selected && selected.summary && selected.summary.media_url) || "<Screenshot or video URLs, or note that assets are attached in Discord>",
       "",
       "Install:",
       "```bash",
@@ -233,10 +236,10 @@
           const list = Array.isArray(data.plugins) ? data.plugins : [];
           setPlugins(list);
           if (!selectedPath && list.length) {
-            const own = list.find(function (plugin) {
-              return plugin.manifest && plugin.manifest.name === "hermes-hackathon-hub";
+            const collection = list.find(function (plugin) {
+              return plugin.manifest && plugin.manifest.name === "hermes-user";
             });
-            setSelectedPath((own || list[0]).path);
+            setSelectedPath((collection || list[0]).path);
           }
         })
         .catch(function (err) {
@@ -341,7 +344,7 @@
 
       h("div", { className: "hhh-grid hhh-grid-wide" },
         h(Card, null,
-          h(CardHeader, null, h(CardTitle, null, "Local Plugins")),
+          h(CardHeader, null, h(CardTitle, null, "Publish Candidates")),
           h(CardContent, null,
             plugins.length
               ? h("div", { className: "hhh-plugin-list" },
@@ -354,6 +357,22 @@
                         setSelectedPath(next.path);
                         const nextManifest = next.manifest || {};
                         updateForm("pluginName", nextManifest.label || nextManifest.name || form.pluginName);
+                        if (next.summary && next.summary.repo_url) {
+                          updateForm("repoUrl", next.summary.repo_url);
+                        } else if (nextManifest.name) {
+                          updateForm("repoUrl", GITHUB_REPO + "/tree/main/plugins/" + nextManifest.name);
+                        }
+                        if (next.summary && next.summary.media_url && !form.mediaUrls.trim()) {
+                          updateForm("mediaUrls", next.summary.media_url);
+                        }
+                        if (next.summary && next.summary.install_command) {
+                          updateForm("installCommand", next.summary.install_command);
+                        } else if (nextManifest.name) {
+                          updateForm("installCommand", "mkdir -p ~/.hermes/plugins\n" +
+                            "git clone " + GITHUB_REPO + ".git /tmp/hermes-user\n" +
+                            "cp -R /tmp/hermes-user/plugins/" + nextManifest.name + " ~/.hermes/plugins/" + nextManifest.name + "\n" +
+                            "curl http://127.0.0.1:9119/api/dashboard/plugins/rescan");
+                        }
                       },
                     });
                   }),

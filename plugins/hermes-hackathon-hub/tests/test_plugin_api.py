@@ -100,3 +100,35 @@ def test_warns_for_publish_readiness_assets(tmp_path):
     assert "Missing README.md at plugin root" in result["warnings"]
     assert "Missing LICENSE at plugin root" in result["warnings"]
     assert "Missing screenshots or video assets" in result["warnings"]
+
+
+def test_collection_submission_candidate_points_to_hermes_user_repo():
+    result = plugin_api.collection_submission_candidate()
+
+    assert result["ok"] is True
+    assert result["source"] == "github"
+    assert result["path"] == "https://github.com/AIandI0x1/hermes-user"
+    assert result["manifest"]["name"] == "hermes-user"
+    assert result["manifest"]["label"] == "Hermes User Plugins"
+    assert result["summary"]["repo_url"] == "https://github.com/AIandI0x1/hermes-user"
+    assert result["summary"]["media_url"].startswith("https://")
+    assert result["summary"]["has_media"] is True
+
+
+def test_collection_media_fetch_prefers_open_graph_image(monkeypatch):
+    def fake_fetch(url: str) -> dict:
+        assert url == "https://github.com/AIandI0x1/hermes-user"
+        return {
+            "ok": True,
+            "repo_url": url,
+            "media_url": "https://repository-images.githubusercontent.com/example/social",
+            "description": "Fetched description",
+        }
+
+    monkeypatch.setattr(plugin_api, "fetch_github_repo_metadata", fake_fetch)
+
+    result = plugin_api.collection_submission_candidate()
+
+    assert result["summary"]["media_url"] == "https://repository-images.githubusercontent.com/example/social"
+    assert result["summary"]["media_source"] == "github_open_graph"
+    assert result["manifest"]["description"] == "Fetched description"

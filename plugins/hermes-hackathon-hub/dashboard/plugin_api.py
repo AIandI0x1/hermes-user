@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import re
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
+from urllib.request import Request, urlopen
 
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -16,6 +18,11 @@ DEFAULT_SCAN_ROOTS: tuple[tuple[str, Path], ...] = (
     ("bundled", Path.cwd() / "plugins"),
 )
 SCREENSHOT_SUFFIXES = {".gif", ".jpeg", ".jpg", ".mov", ".mp4", ".png", ".webm"}
+HERMES_USER_REPO = "https://github.com/AIandI0x1/hermes-user"
+HERMES_USER_SOCIAL_PREVIEW = (
+    "https://raw.githubusercontent.com/AIandI0x1/hermes-user/main/"
+    "docs/assets/social-preview-plugin-cubes.png"
+)
 
 
 class ValidateRequest(BaseModel):
@@ -91,6 +98,46 @@ def _trust_for(errors: list[str], manifest: dict[str, Any] | None) -> dict[str, 
         "status": status,
         "official_verification": "unavailable",
         "detail": detail,
+    }
+
+
+class _GitHubMetaParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.meta: dict[str, str] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag != "meta":
+            return
+        data = {key: value for key, value in attrs if value is not None}
+        key = data.get("property") or data.get("name")
+        content = data.get("content")
+        if key and content:
+            self.meta[key] = content
+
+
+def fetch_github_repo_metadata(repo_url: str) -> dict[str, Any]:
+    request = Request(repo_url, headers={"User-Agent": "Hermes-Hackathon-Hub/0.1"})
+    try:
+        with urlopen(request, timeout=8) as response:
+            html = response.read().decode("utf-8", "replace")
+    except Exception as exc:
+        return {
+            "ok": False,
+            "repo_url": repo_url,
+            "media_url": HERMES_USER_SOCIAL_PREVIEW,
+            "description": "Self-contained Hermes Agent user plugin collection with plugin manager, hackathon hub, publisher, examples, validation, and CI.",
+            "error": str(exc),
+        }
+
+    parser = _GitHubMetaParser()
+    parser.feed(html)
+    return {
+        "ok": True,
+        "repo_url": repo_url,
+        "media_url": parser.meta.get("og:image") or parser.meta.get("twitter:image") or HERMES_USER_SOCIAL_PREVIEW,
+        "description": parser.meta.get("og:description") or parser.meta.get("description") or "Self-contained Hermes Agent user plugin collection.",
+        "title": parser.meta.get("og:title") or "Hermes User Plugins",
     }
 
 
@@ -189,6 +236,49 @@ def validate_plugin(root: Path, source: str = "unknown") -> dict[str, Any]:
     }
 
 
+def collection_submission_candidate() -> dict[str, Any]:
+    repo_metadata = fetch_github_repo_metadata(HERMES_USER_REPO)
+    media_url = str(repo_metadata.get("media_url") or HERMES_USER_SOCIAL_PREVIEW)
+    description = str(
+        repo_metadata.get("description")
+        or "Self-contained Hermes Agent user plugin collection with plugin manager, hackathon hub, publisher, examples, validation, and CI."
+    )
+    manifest = {
+        "name": "hermes-user",
+        "label": "Hermes User Plugins",
+        "description": description,
+        "icon": "Package",
+        "version": "0.1.0",
+        "entry": "",
+        "tab": {"path": ""},
+    }
+    return {
+        "path": HERMES_USER_REPO,
+        "source": "github",
+        "ok": True,
+        "errors": [],
+        "warnings": [],
+        "summary": {
+            "has_readme": True,
+            "has_license": True,
+            "has_media": bool(media_url),
+            "has_backend_api": False,
+            "has_css": False,
+            "tab_path": "",
+            "repo_url": HERMES_USER_REPO,
+            "media_url": media_url,
+            "media_source": "github_open_graph" if repo_metadata.get("ok") else "fallback_repo_asset",
+            "install_command": "git clone https://github.com/AIandI0x1/hermes-user.git",
+        },
+        "manifest": manifest,
+        "trust": {
+            "status": "locally_validated",
+            "official_verification": "unavailable",
+            "detail": "Public user plugin collection with local validator and passing GitHub Actions. This is not official Hermes certification.",
+        },
+    }
+
+
 def _candidate_roots() -> list[tuple[str, Path]]:
     candidates: list[tuple[str, Path]] = []
     seen: set[Path] = set()
@@ -219,7 +309,12 @@ def _candidate_roots() -> list[tuple[str, Path]]:
 
 @router.get("/scan")
 async def scan_plugins() -> dict[str, Any]:
-    return {"plugins": [validate_plugin(path, source) for source, path in _candidate_roots()]}
+    return {
+        "plugins": [
+            collection_submission_candidate(),
+            *[validate_plugin(path, source) for source, path in _candidate_roots()],
+        ]
+    }
 
 
 @router.post("/validate")
