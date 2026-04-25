@@ -55,5 +55,5 @@ python -m py_compile dashboard/plugin_api.py
 Open the dashboard and select **Theme Hub**:
 
 ```text
-http://127.0.0.1:9119/theme-hub
+#edit here
 ```
