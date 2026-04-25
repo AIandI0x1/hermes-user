@@ -63,3 +63,5 @@ http://127.0.0.1:9119/theme-hub
 This is a local-only loopback URL. It is reachable only from the machine
 running `hermes dashboard`; it does not expose the maintainer or this repository
 to the public internet.
+
+Set `HERMES_DASHBOARD_URL` when using a non-default local dashboard port.

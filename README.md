@@ -36,7 +36,8 @@ git clone https://github.com/AIandI0x1/hermes-user.git /tmp/hermes-user
 mkdir -p ~/.hermes/plugins
 cp -R /tmp/hermes-user/plugins/<plugin-name> ~/.hermes/plugins/<plugin-name>
 hermes dashboard --no-open
-curl http://127.0.0.1:9119/api/dashboard/plugins/rescan
+export HERMES_DASHBOARD_URL="${HERMES_DASHBOARD_URL:-http://127.0.0.1:9119}"
+curl "$HERMES_DASHBOARD_URL/api/dashboard/plugins/rescan"
 ```
 
 For profile-based Hermes installs, use the active profile's Hermes home:
@@ -85,6 +86,10 @@ Dashboard links such as `http://127.0.0.1:9119/plugins`,
 `http://127.0.0.1:9119/hackathon-hub` are local loopback URLs. They are only
 reachable from the machine running `hermes dashboard` and are not public
 support, contact, webhook, or remote access endpoints.
+
+Docs and generated install commands use `HERMES_DASHBOARD_URL` for the local
+dashboard origin. Leave it unset for the default `http://127.0.0.1:9119`, or set
+it when running Hermes dashboard on another local port.
 
 ## Trust Model
 

@@ -40,6 +40,8 @@ This is a local-only loopback URL. It is reachable only from the machine
 running `hermes dashboard`; it is not a public support, contact, or remote
 access endpoint.
 
+Set `HERMES_DASHBOARD_URL` when using a non-default local dashboard port.
+
 If direct loading lands on `/sessions`, open `/plugins` from the sidebar after
 the dashboard plugin loader has initialized.
 

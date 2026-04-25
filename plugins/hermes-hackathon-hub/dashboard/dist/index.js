@@ -6,7 +6,8 @@
   const INSTALL_COMMAND = "mkdir -p ~/.hermes/plugins\n" +
     "git clone " + GITHUB_REPO + ".git /tmp/hermes-user\n" +
     "cp -R /tmp/hermes-user/plugins/<plugin-name> ~/.hermes/plugins/<plugin-name>\n" +
-    "curl http://127.0.0.1:9119/api/dashboard/plugins/rescan";
+    "export HERMES_DASHBOARD_URL=\"${HERMES_DASHBOARD_URL:-http://127.0.0.1:9119}\"\n" +
+    "curl \"$HERMES_DASHBOARD_URL/api/dashboard/plugins/rescan\"";
 
   const SDK = window.__HERMES_PLUGIN_SDK__;
   const { React } = SDK;

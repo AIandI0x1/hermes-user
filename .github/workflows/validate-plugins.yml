@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install validation dependencies
+        run: python -m pip install pytest pyyaml fastapi pydantic
+
       - name: Run validator unit tests
         run: python -m unittest discover -s tests -p 'test_*.py'
 
@@ -33,4 +36,32 @@ jobs:
           python scripts/validate_plugin.py \
             plugins/hermes-dashboard-plugins \
             plugins/hermes-hackathon-hub \
+            plugins/hermes-theme-hub \
             plugins/plugin-publisher
+
+      - name: Run plugin unit tests
+        run: |
+          python -m pytest \
+            --import-mode=importlib \
+            plugins/hermes-dashboard-plugins/tests/test_plugin_api.py \
+            plugins/hermes-dashboard-plugins/tests/test_frontend_ownership_rule.py \
+            plugins/hermes-hackathon-hub/tests/test_plugin_api.py \
+            plugins/hermes-theme-hub/tests/test_theme_hub_api.py \
+            plugins/plugin-publisher/tests/test_publisher_api.py \
+            -q
+
+      - name: Check plugin frontend bundles
+        run: |
+          node --check plugins/hermes-dashboard-plugins/dashboard/dist/index.js
+          node --check plugins/hermes-hackathon-hub/dashboard/dist/index.js
+          node --check plugins/hermes-theme-hub/dashboard/dist/index.js
+          node --check plugins/plugin-publisher/dashboard/dist/index.js
+
+      - name: Compile plugin Python files
+        run: |
+          python -m py_compile \
+            plugins/hermes-dashboard-plugins/dashboard/plugin_api.py \
+            plugins/hermes-dashboard-plugins/scripts/enforce_frontend_ownership.py \
+            plugins/hermes-hackathon-hub/dashboard/plugin_api.py \
+            plugins/hermes-theme-hub/dashboard/plugin_api.py \
+            plugins/plugin-publisher/dashboard/plugin_api.py

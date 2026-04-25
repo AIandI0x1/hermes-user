@@ -74,7 +74,8 @@ send the generated post manually.
 mkdir -p ~/.hermes/plugins
 git clone <repo-url> ~/.hermes/plugins/hermes-hackathon-hub
 hermes dashboard --no-open
-curl http://127.0.0.1:9119/api/dashboard/plugins/rescan
+export HERMES_DASHBOARD_URL="${HERMES_DASHBOARD_URL:-http://127.0.0.1:9119}"
+curl "$HERMES_DASHBOARD_URL/api/dashboard/plugins/rescan"
 ```
 
 For local development, edit the installed user plugin directly:
@@ -93,6 +94,8 @@ http://127.0.0.1:9119
 This is a local-only loopback URL. It is reachable only from the machine
 running `hermes dashboard`; it is not a public support, contact, or remote
 access endpoint.
+
+Set `HERMES_DASHBOARD_URL` if your local dashboard runs on a different port.
 
 Then open the navigation sidebar and select **Plugins**. The active dashboard
 route should become `/plugins`.
