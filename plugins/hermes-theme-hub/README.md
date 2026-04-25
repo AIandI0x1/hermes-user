@@ -6,6 +6,8 @@ dashboard themes.
 This is a hub plugin, not a single theme. It appears as **Theme Hub** in the
 Hermes dashboard and discovers theme-capable plugin packages automatically.
 
+![Theme Hub dashboard screenshot](screenshots/theme-hub-dashboard.png)
+
 ## What It Detects
 
 A theme plugin is any Hermes user plugin folder that contains:
