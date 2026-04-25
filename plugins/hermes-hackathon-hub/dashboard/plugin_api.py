@@ -64,6 +64,14 @@ def _has_screenshot_assets(root: Path) -> bool:
     )
 
 
+def _display_path(root: Path, source: str) -> str:
+    if source == "user":
+        return f"~/.hermes/plugins/{root.name}"
+    if source == "bundled":
+        return f"plugins/{root.name}"
+    return root.name
+
+
 def _trust_for(errors: list[str], manifest: dict[str, Any] | None) -> dict[str, str]:
     signature = None
     if isinstance(manifest, dict):
@@ -95,7 +103,7 @@ def validate_plugin(root: Path, source: str = "unknown") -> dict[str, Any]:
 
     if not manifest_path.exists():
         return {
-            "path": str(root),
+            "path": _display_path(root, source),
             "source": source,
             "ok": False,
             "errors": ["Missing dashboard/manifest.json"],
@@ -107,7 +115,7 @@ def validate_plugin(root: Path, source: str = "unknown") -> dict[str, Any]:
     manifest, manifest_error = _safe_manifest(manifest_path)
     if manifest_error:
         return {
-            "path": str(root),
+            "path": _display_path(root, source),
             "source": source,
             "ok": False,
             "errors": [manifest_error],
@@ -163,7 +171,7 @@ def validate_plugin(root: Path, source: str = "unknown") -> dict[str, Any]:
         warnings.append("Missing screenshots or video assets")
 
     return {
-        "path": str(root),
+        "path": _display_path(root, source),
         "source": source,
         "ok": not errors,
         "errors": errors,

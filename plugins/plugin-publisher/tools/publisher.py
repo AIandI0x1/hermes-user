@@ -43,6 +43,18 @@ SECRET_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("env_secret_assignment", re.compile(r"(?i)\\b(api[_-]?key|secret|token|password)\\b\\s*[:=]\\s*['\\\"]?[^'\\\"\\s]{8,}")),
     ("private_key", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
 ]
+SCREENSHOT_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif"}
+VIDEO_LINK_RE = re.compile(
+    r"https?://(?:www\.)?(?:"
+    r"youtube\.com/watch\?v=[A-Za-z0-9_-]+|"
+    r"youtu\.be/[A-Za-z0-9_-]+|"
+    r"vimeo\.com/[0-9]+|"
+    r"loom\.com/share/[A-Za-z0-9_-]+|"
+    r"github\.com/[^)\s]+/assets/[^)\s]+|"
+    r"[^)\s]+\.(?:mp4|mov|webm)"
+    r")",
+    re.IGNORECASE,
+)
 
 
 HERMES_PLUGIN_PUBLISH_PLAN_SCHEMA = {
@@ -145,6 +157,37 @@ def _scan_secrets(root: Path) -> list[dict[str, Any]]:
                     }
                 )
     return findings
+
+
+def _media_check(root: Path) -> dict[str, Any]:
+    screenshots: list[str] = []
+    video_links: list[str] = []
+    for path in root.rglob("*"):
+        if any(part in IGNORED_DIRS for part in path.parts):
+            continue
+        if not path.is_file():
+            continue
+        relative = str(path.relative_to(root))
+        lower_parts = {part.lower() for part in path.parts}
+        if path.suffix.lower() in SCREENSHOT_SUFFIXES and (
+            "screenshots" in lower_parts or "screenshot" in path.stem.lower()
+        ):
+            screenshots.append(relative)
+            continue
+        if path.suffix.lower() not in TEXT_SUFFIXES:
+            continue
+        try:
+            if path.stat().st_size > MAX_SCAN_BYTES:
+                continue
+            content = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        video_links.extend(match.group(0) for match in VIDEO_LINK_RE.finditer(content))
+    return {
+        "ok": bool(screenshots or video_links),
+        "screenshots": sorted(set(screenshots)),
+        "video_links": sorted(set(video_links)),
+    }
 
 
 def _read_yaml_metadata(path: Path) -> dict[str, Any] | None:
@@ -277,6 +320,7 @@ def publish_plan(args: dict[str, Any], **_: Any) -> str:
         visibility = "public"
 
     secret_findings = _scan_secrets(root)
+    media = _media_check(root)
     git = _git_summary(root)
     full_repo = f"{owner}/{repo_name}" if owner else repo_name
     repo = _repo_status(root, full_repo)
@@ -287,6 +331,8 @@ def publish_plan(args: dict[str, Any], **_: Any) -> str:
         warnings.append("Missing LICENSE")
     if secret_findings:
         warnings.append("Secret-risk findings must be reviewed before publishing")
+    if not media["ok"]:
+        warnings.append("Missing screenshot or video link")
     if git["is_repo"] and git["status"]:
         warnings.append("Git working tree has uncommitted changes")
     if repo.get("exists") and repo.get("visibility") != visibility:
@@ -312,6 +358,7 @@ def publish_plan(args: dict[str, Any], **_: Any) -> str:
                 "findings": secret_findings,
                 "note": "Matches are redacted. Review files locally before publishing.",
             },
+            "media_check": media,
             "warnings": warnings,
             "publish_commands": _commands(root, repo_name, owner, visibility, bool(git["is_repo"]), bool(repo.get("exists"))),
             "safety": (

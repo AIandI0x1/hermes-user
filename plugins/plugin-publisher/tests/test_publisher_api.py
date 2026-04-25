@@ -185,6 +185,57 @@ def test_plan_accepts_user_plugin_collection_path(monkeypatch, tmp_path):
     assert any("git add plugins/demo-plugin" in command for command in plan["publish_commands"])
 
 
+def test_plan_warns_when_no_screenshot_or_video_link(monkeypatch, tmp_path):
+    plugin_root = tmp_path / "demo-plugin"
+    plugin_root.mkdir()
+    (plugin_root / "README.md").write_text("# Demo\n", encoding="utf-8")
+    (plugin_root / "LICENSE").write_text("MIT\n", encoding="utf-8")
+    monkeypatch.setattr(publisher_api, "_plugin_root", lambda name: plugin_root)
+    monkeypatch.setattr(publisher_api, "_github_account", lambda root: {"ok": True, "owner": "AIandI0x1"})
+    monkeypatch.setattr(
+        publisher_api,
+        "_repo_status",
+        lambda root, repo_path: {
+            "exists": True,
+            "name_with_owner": repo_path,
+            "visibility": "public",
+            "url": f"https://github.com/{repo_path}",
+        },
+    )
+
+    plan = publisher_api._plan("demo-plugin", "AIandI0x1/hermes-user/plugins/demo-plugin", "public")
+
+    assert plan["media_check"]["ok"] is False
+    assert "Missing screenshot or video link" in plan["warnings"]
+
+
+def test_plan_accepts_screenshot_as_media_evidence(monkeypatch, tmp_path):
+    plugin_root = tmp_path / "demo-plugin"
+    screenshots = plugin_root / "screenshots"
+    screenshots.mkdir(parents=True)
+    (plugin_root / "README.md").write_text("# Demo\n", encoding="utf-8")
+    (plugin_root / "LICENSE").write_text("MIT\n", encoding="utf-8")
+    (screenshots / "demo.png").write_bytes(b"png")
+    monkeypatch.setattr(publisher_api, "_plugin_root", lambda name: plugin_root)
+    monkeypatch.setattr(publisher_api, "_github_account", lambda root: {"ok": True, "owner": "AIandI0x1"})
+    monkeypatch.setattr(
+        publisher_api,
+        "_repo_status",
+        lambda root, repo_path: {
+            "exists": True,
+            "name_with_owner": repo_path,
+            "visibility": "public",
+            "url": f"https://github.com/{repo_path}",
+        },
+    )
+
+    plan = publisher_api._plan("demo-plugin", "AIandI0x1/hermes-user/plugins/demo-plugin", "public")
+
+    assert plan["media_check"]["ok"] is True
+    assert "screenshots/demo.png" in plan["media_check"]["screenshots"]
+    assert "Missing screenshot or video link" not in plan["warnings"]
+
+
 def test_update_collection_readme_lists_published_plugins(tmp_path):
     checkout = tmp_path / "repo"
     plugins_dir = checkout / "plugins"

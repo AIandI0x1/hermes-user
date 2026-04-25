@@ -39,6 +39,27 @@ def test_missing_manifest_is_blocking_error(tmp_path):
     assert result["trust"]["status"] == "unsigned"
 
 
+def test_user_plugin_path_is_display_safe(tmp_path):
+    plugin_root = tmp_path / ".hermes" / "plugins" / "demo-plugin"
+    write_plugin(
+        plugin_root,
+        {
+            "name": "demo-plugin",
+            "label": "Demo Plugin",
+            "description": "A demo",
+            "icon": "Package",
+            "version": "0.1.0",
+            "tab": {"path": "/demo-plugin"},
+            "entry": "dist/index.js",
+        },
+    )
+
+    result = plugin_api.validate_plugin(plugin_root, "user")
+
+    assert result["path"] == "~/.hermes/plugins/demo-plugin"
+    assert str(tmp_path) not in result["path"]
+
+
 def test_rejects_declared_files_outside_dashboard(tmp_path):
     write_plugin(
         tmp_path,
