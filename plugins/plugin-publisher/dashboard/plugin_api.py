@@ -295,6 +295,79 @@ def _copy_plugin_tree(source: Path, destination: Path) -> None:
             shutil.copy2(item, target)
 
 
+def _read_plugin_description(plugin_root: Path) -> str:
+    plugin_yaml = plugin_root / "plugin.yaml"
+    if not plugin_yaml.exists():
+        return "Hermes user plugin."
+    for line in plugin_yaml.read_text(encoding="utf-8", errors="replace").splitlines():
+        if line.strip().startswith("description:"):
+            return line.split(":", 1)[1].strip().strip("\"'") or "Hermes user plugin."
+    return "Hermes user plugin."
+
+
+def _update_collection_readme(checkout: Path, full_repo: str) -> None:
+    plugins_dir = checkout / "plugins"
+    plugin_roots = sorted(path for path in plugins_dir.iterdir() if path.is_dir()) if plugins_dir.exists() else []
+    rows = [
+        f"| [`{plugin.name}`](plugins/{plugin.name}) | Published | {_read_plugin_description(plugin)} |"
+        for plugin in plugin_roots
+    ]
+    layout = "\n".join(f"  {plugin.name}/" for plugin in plugin_roots) or "  <plugin-name>/"
+    plugins_table = "\n".join(rows) or "| `<plugin-name>` | Planned | Hermes user plugin. |"
+    content = f"""# Hermes User Plugins
+
+Self-contained user plugin collection for Hermes Agent dashboard extensions,
+tools, skills, documentation, and supporting plugin workflows.
+
+This repository is separate from upstream `hermes-agent` source code. Plugins
+published here are user-owned packages. Each plugin folder is intended to be
+portable on its own and should include the files it needs to run, document,
+test, and expose its dashboard or tool functionality.
+
+Install a plugin by placing its folder in the local Hermes user plugin
+directory:
+
+```text
+~/.hermes/plugins/<plugin-name>
+```
+
+For profile-based Hermes installs, use the active profile's Hermes home:
+
+```text
+<HERMES_HOME>/plugins/<plugin-name>
+```
+
+## Plugins
+
+| Plugin | Status | Description |
+| --- | --- | --- |
+{plugins_table}
+
+## Repository Layout
+
+```text
+plugins/
+{layout}
+```
+
+Each plugin should own its frontend, docs, tools, skills, tests, and metadata
+inside its own plugin folder. User plugin work should not require direct edits
+to upstream Hermes Agent core files.
+
+## Publishing Rule
+
+The canonical destination format for plugins in this repository is:
+
+```text
+{full_repo}/plugins/<plugin-name>
+```
+
+Before publishing, run the plugin publisher readiness plan and review the secret
+scan, destination path, repo visibility, and generated GitHub commands.
+"""
+    (checkout / "README.md").write_text(content, encoding="utf-8")
+
+
 def _publish_into_repo_path(root: Path, full_repo: str, subpath: str, visibility: str) -> list[dict[str, Any]]:
     flag = "--public" if visibility == "public" else "--private"
     results: list[dict[str, Any]] = []
@@ -314,7 +387,8 @@ def _publish_into_repo_path(root: Path, full_repo: str, subpath: str, visibility
         target = (checkout / subpath).resolve()
         target.relative_to(checkout.resolve())
         _copy_plugin_tree(root, target)
-        results.append(_run(["git", "add", subpath], checkout))
+        _update_collection_readme(checkout, full_repo)
+        results.append(_run(["git", "add", subpath, "README.md"], checkout))
         diff = _run(["git", "diff", "--cached", "--quiet"], checkout)
         if not diff["ok"]:
             results.append(_run(["git", "commit", "-m", f"Publish {root.name} plugin"], checkout))

@@ -183,3 +183,33 @@ def test_plan_accepts_user_plugin_collection_path(monkeypatch, tmp_path):
     assert plan["target"]["repo_path"] == "AIandI0x1/hermes-user/plugins/demo-plugin"
     assert "git clone https://github.com/AIandI0x1/hermes-user.git /tmp/hermes-plugin-publish" in plan["publish_commands"]
     assert any("git add plugins/demo-plugin" in command for command in plan["publish_commands"])
+
+
+def test_update_collection_readme_lists_published_plugins(tmp_path):
+    checkout = tmp_path / "repo"
+    plugins_dir = checkout / "plugins"
+    plugins_dir.mkdir(parents=True)
+
+    dashboard = plugins_dir / "hermes-dashboard-plugins"
+    dashboard.mkdir()
+    (dashboard / "plugin.yaml").write_text(
+        "name: hermes-dashboard-plugins\n"
+        "description: Dashboard sidebar plugin that adds the plugins catalog page and plugin enable controls.\n",
+        encoding="utf-8",
+    )
+
+    publisher = plugins_dir / "plugin-publisher"
+    publisher.mkdir()
+    (publisher / "plugin.yaml").write_text(
+        "name: plugin-publisher\n"
+        "description: Dashboard plugin for preparing, checking, and publishing Hermes user plugins to GitHub.\n",
+        encoding="utf-8",
+    )
+
+    publisher_api._update_collection_readme(checkout, "AIandI0x1/hermes-user")
+
+    readme = (checkout / "README.md").read_text(encoding="utf-8")
+    assert "Self-contained user plugin collection" in readme
+    assert "| [`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins) | Published | Dashboard sidebar plugin" in readme
+    assert "| [`plugin-publisher`](plugins/plugin-publisher) | Published | Dashboard plugin for preparing" in readme
+    assert "AIandI0x1/hermes-user/plugins/<plugin-name>" in readme
