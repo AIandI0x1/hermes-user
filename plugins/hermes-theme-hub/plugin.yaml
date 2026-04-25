@@ -1,0 +1,13 @@
+name: hermes-theme-hub
+version: 0.1.0
+description: Dashboard plugin for discovering, inspecting, installing, and activating Hermes dashboard themes.
+author: 0x1-Main
+license: MIT
+origin: user
+kind: dashboard
+provides_hooks: []
+provides_tools: []
+metadata:
+  hermes:
+    origin: user
+    category: dashboard-theme-management

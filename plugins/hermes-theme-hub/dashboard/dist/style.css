@@ -1,0 +1,135 @@
+.hth-page {
+  display: flex;
+  flex-direction: column;
+  gap: calc(1rem * var(--spacing-mul, 1));
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.hth-title-row,
+.hth-theme-row,
+.hth-chip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hth-title-row {
+  justify-content: space-between;
+}
+
+.hth-page-title {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.hth-muted,
+.hth-theme-main p {
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.hth-error {
+  color: var(--color-destructive);
+}
+
+.hth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 1rem;
+  min-width: 0;
+}
+
+.hth-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hth-theme-row {
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  background: color-mix(in srgb, var(--color-card) 90%, transparent);
+}
+
+.hth-theme-main {
+  min-width: 0;
+  flex: 1 1 14rem;
+}
+
+.hth-theme-main strong,
+.hth-theme-main span {
+  display: block;
+  min-width: 0;
+}
+
+.hth-theme-main span,
+.hth-code {
+  color: var(--color-muted-foreground);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.hth-theme-main p {
+  margin: 0.4rem 0 0;
+}
+
+.hth-theme-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.hth-chip-row {
+  gap: 0.45rem;
+  margin-top: 0.65rem;
+}
+
+.hth-chip {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.45rem;
+  color: var(--color-muted-foreground);
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
+.hth-chip-accent {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.hth-chip-active {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.hth-code {
+  display: block;
+  margin-top: 0.85rem;
+  padding: 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-card) 85%, transparent);
+  color: var(--color-card-foreground);
+}
+
+@media (max-width: 520px) {
+  .hth-theme-row,
+  .hth-theme-actions {
+    width: 100%;
+  }
+
+  .hth-theme-actions button {
+    flex: 1 1 auto;
+  }
+}
