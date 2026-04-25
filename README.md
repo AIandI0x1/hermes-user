@@ -29,6 +29,20 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 | [`hermes-hackathon-hub`](plugins/hermes-hackathon-hub) | Published | Dashboard plugin for Hermes hackathon submission validation, Discord drafts, and plugin review workflow. |
 | [`plugin-publisher`](plugins/plugin-publisher) | Published | User plugin that audits Hermes plugins and prepares GitHub publishing commands. |
 
+## Screenshots
+
+### Hermes Dashboard Plugins
+
+![Plugins catalog screenshot](plugins/hermes-dashboard-plugins/screenshots/plugins-catalog.png)
+
+### Hermes Hackathon Hub
+
+![Hackathon Hub dashboard screenshot](plugins/hermes-hackathon-hub/screenshots/hackathon-hub-dashboard.png)
+
+### Plugin Publisher
+
+![Plugin Publisher dashboard screenshot](plugins/plugin-publisher/screenshots/plugin-publisher-dashboard.png)
+
 ## Repository Layout
 
 ```text
