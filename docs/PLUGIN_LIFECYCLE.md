@@ -40,6 +40,15 @@ theme/<theme-name>.yaml
 
 Run local checks before publishing:
 
+```bash
+python scripts/validate_plugin.py plugins/<plugin-name>
+```
+
+The validator checks the package contract, dashboard manifest paths, obvious
+secret patterns, and personal local path leaks.
+
+Then run plugin-specific checks when they exist:
+
 - Manifest and entry file validation.
 - JavaScript syntax checks for dashboard bundles.
 - Python compile checks for dashboard APIs.

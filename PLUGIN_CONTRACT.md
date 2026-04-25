@@ -139,3 +139,19 @@ The publisher must show the destination path, secret scan result, media check,
 and generated GitHub commands before any push.
 
 Automated publish flows should require explicit confirmation.
+
+## Canonical Validation Command
+
+Every plugin in this collection should pass the root validator:
+
+```bash
+python scripts/validate_plugin.py plugins/<plugin-name>
+```
+
+Reference examples should pass the same command:
+
+```bash
+python scripts/validate_plugin.py examples/minimal-dashboard-plugin
+python scripts/validate_plugin.py examples/tool-only-plugin
+python scripts/validate_plugin.py examples/skill-only-plugin
+```

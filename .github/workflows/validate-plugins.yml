@@ -1,0 +1,36 @@
+name: Validate Plugins
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run validator unit tests
+        run: python -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Validate example plugins
+        run: |
+          python scripts/validate_plugin.py \
+            examples/minimal-dashboard-plugin \
+            examples/tool-only-plugin \
+            examples/skill-only-plugin
+
+      - name: Validate published plugins
+        run: |
+          python scripts/validate_plugin.py \
+            plugins/hermes-dashboard-plugins \
+            plugins/hermes-hackathon-hub \
+            plugins/plugin-publisher

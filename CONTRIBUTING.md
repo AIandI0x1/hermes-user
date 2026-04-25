@@ -42,6 +42,7 @@ See [PLUGIN_CONTRACT.md](PLUGIN_CONTRACT.md) and
 Run the focused checks for the plugin you changed. Examples:
 
 ```bash
+python scripts/validate_plugin.py plugins/<plugin-name>
 python -m pytest plugins/<plugin-name>/tests -q
 node --check plugins/<plugin-name>/dashboard/dist/index.js
 python -m py_compile plugins/<plugin-name>/dashboard/plugin_api.py

@@ -1,0 +1,9 @@
+name: minimal-dashboard-plugin
+version: 0.1.0
+description: Minimal dashboard plugin example for the Hermes user plugin contract.
+author: example
+license: MIT
+origin: user
+kind: dashboard
+provides_hooks: []
+provides_tools: []

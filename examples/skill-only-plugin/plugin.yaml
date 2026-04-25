@@ -1,0 +1,11 @@
+name: skill-only-plugin
+version: 0.1.0
+description: Minimal skill-only plugin example for the Hermes user plugin contract.
+author: example
+license: MIT
+origin: user
+kind: skill
+provides_hooks: []
+provides_tools: []
+skills:
+  - example-skill

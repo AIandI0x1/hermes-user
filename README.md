@@ -31,6 +31,29 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 | [`hermes-hackathon-hub`](plugins/hermes-hackathon-hub) | Published | Dashboard plugin for Hermes hackathon submission validation, Discord drafts, and plugin review workflow. |
 | [`plugin-publisher`](plugins/plugin-publisher) | Published | User plugin that audits Hermes plugins and prepares GitHub publishing commands. |
 
+## Quick Start
+
+Install a plugin:
+
+```bash
+cp -R plugins/plugin-publisher ~/.hermes/plugins/plugin-publisher
+hermes dashboard --no-open
+```
+
+Validate a plugin:
+
+```bash
+python scripts/validate_plugin.py plugins/plugin-publisher
+```
+
+Study a minimal example:
+
+```text
+examples/minimal-dashboard-plugin
+examples/tool-only-plugin
+examples/skill-only-plugin
+```
+
 ## Plugin Contract
 
 This collection follows the [Hermes User Plugin Contract](PLUGIN_CONTRACT.md).
@@ -59,10 +82,16 @@ For contribution and release flow, see [CONTRIBUTING.md](CONTRIBUTING.md),
 ## Repository Layout
 
 ```text
+examples/
+  minimal-dashboard-plugin/
+  tool-only-plugin/
+  skill-only-plugin/
 plugins/
   hermes-dashboard-plugins/
   hermes-hackathon-hub/
   plugin-publisher/
+scripts/
+  validate_plugin.py
 ```
 
 Each plugin should own its frontend, docs, tools, skills, tests, and metadata
@@ -79,3 +108,9 @@ AIandI0x1/hermes-user/plugins/<plugin-name>
 
 Before publishing, run the plugin publisher readiness plan and review the secret
 scan, destination path, repo visibility, and generated GitHub commands.
+
+For contract validation, run:
+
+```bash
+python scripts/validate_plugin.py plugins/<plugin-name>
+```

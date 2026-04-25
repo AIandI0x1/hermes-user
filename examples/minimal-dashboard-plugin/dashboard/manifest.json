@@ -1,0 +1,13 @@
+{
+  "name": "minimal-dashboard-plugin",
+  "label": "Minimal Plugin",
+  "description": "Minimal dashboard plugin example.",
+  "icon": "Package",
+  "version": "0.1.0",
+  "tab": {
+    "path": "/minimal-dashboard-plugin",
+    "position": "end"
+  },
+  "entry": "dist/index.js",
+  "css": "dist/style.css"
+}
