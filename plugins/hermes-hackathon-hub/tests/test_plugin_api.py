@@ -113,6 +113,12 @@ def test_collection_submission_candidate_points_to_hermes_user_repo():
     assert result["summary"]["repo_url"] == "https://github.com/AIandI0x1/hermes-user"
     assert result["summary"]["media_url"].startswith("https://")
     assert result["summary"]["has_media"] is True
+    assert [plugin["name"] for plugin in result["summary"]["plugins"]] == [
+        "hermes-dashboard-plugins",
+        "hermes-hackathon-hub",
+        "hermes-theme-hub",
+        "plugin-publisher",
+    ]
 
 
 def test_collection_media_fetch_prefers_open_graph_image(monkeypatch):

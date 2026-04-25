@@ -23,6 +23,28 @@ HERMES_USER_SOCIAL_PREVIEW = (
     "https://raw.githubusercontent.com/AIandI0x1/hermes-user/main/"
     "docs/assets/social-preview-plugin-cubes.png"
 )
+HERMES_USER_PLUGINS = [
+    {
+        "name": "hermes-dashboard-plugins",
+        "label": "Hermes Dashboard Plugins",
+        "description": "Adds the Plugins catalog page, origin labels, validation state, and enable controls.",
+    },
+    {
+        "name": "hermes-hackathon-hub",
+        "label": "Hermes Hackathon Hub",
+        "description": "Builds Discord-ready Hermes plugin submissions with readiness checks and honest trust language.",
+    },
+    {
+        "name": "hermes-theme-hub",
+        "label": "Hermes Theme Hub",
+        "description": "Discovers installed and plugin-provided dashboard themes, then installs or activates them.",
+    },
+    {
+        "name": "plugin-publisher",
+        "label": "Plugin Publisher",
+        "description": "Audits plugin folders and prepares explicit GitHub publishing commands.",
+    },
+]
 
 
 class ValidateRequest(BaseModel):
@@ -269,6 +291,7 @@ def collection_submission_candidate() -> dict[str, Any]:
             "media_url": media_url,
             "media_source": "github_open_graph" if repo_metadata.get("ok") else "fallback_repo_asset",
             "install_command": "git clone https://github.com/AIandI0x1/hermes-user.git",
+            "plugins": HERMES_USER_PLUGINS,
         },
         "manifest": manifest,
         "trust": {
