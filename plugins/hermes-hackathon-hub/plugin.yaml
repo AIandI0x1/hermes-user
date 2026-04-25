@@ -1,0 +1,9 @@
+name: hermes-hackathon-hub
+version: 0.1.0
+description: Dashboard plugin for Hermes hackathon submission validation, Discord drafts, and plugin review workflow.
+author: 0x1-Main
+license: MIT
+origin: user
+kind: standalone
+provides_hooks: []
+provides_tools: []

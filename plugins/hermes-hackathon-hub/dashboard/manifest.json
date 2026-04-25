@@ -1,0 +1,14 @@
+{
+  "name": "hermes-hackathon-hub",
+  "label": "Hackathon Hub",
+  "description": "Validate Hermes dashboard plugins and prepare Discord review submissions.",
+  "icon": "Package",
+  "version": "0.1.0",
+  "tab": {
+    "path": "/hackathon-hub",
+    "position": "after:skills"
+  },
+  "entry": "dist/index.js",
+  "css": "dist/style.css",
+  "api": "plugin_api.py"
+}

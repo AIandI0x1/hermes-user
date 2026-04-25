@@ -26,6 +26,7 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 | Plugin | Status | Description |
 | --- | --- | --- |
 | [`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins) | Published | Dashboard sidebar plugin that adds the Plugins catalog page and plugin enable controls. |
+| [`hermes-hackathon-hub`](plugins/hermes-hackathon-hub) | Published | Dashboard plugin for Hermes hackathon submission validation, Discord drafts, and plugin review workflow. |
 | [`plugin-publisher`](plugins/plugin-publisher) | Published | User plugin that audits Hermes plugins and prepares GitHub publishing commands. |
 
 ## Repository Layout
@@ -33,6 +34,7 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 ```text
 plugins/
   hermes-dashboard-plugins/
+  hermes-hackathon-hub/
   plugin-publisher/
 ```
 
