@@ -109,13 +109,18 @@
   }
 
   function checklistItems(selected, form) {
-    const fetchedMedia = selected && selected.summary && selected.summary.media_url ? selected.summary.media_url : "";
+    const manifest = selected && selected.manifest ? selected.manifest : {};
+    const summary = selected && selected.summary ? selected.summary : {};
+    const repoUrl = form.repoUrl || summary.repo_url || (selected && selected.path) || "";
+    const mediaUrls = form.mediaUrls || summary.media_url || "";
+    const installCommand = form.installCommand || summary.install_command || "";
+    const pitch = form.pitch || manifest.description || "";
     return [
       { label: "Local plugin structure validates", done: Boolean(selected && selected.ok) },
-      { label: "GitHub repository URL is present", done: Boolean(form.repoUrl.trim()) },
-      { label: "Screenshot or video link is present", done: Boolean(form.mediaUrls.trim() || fetchedMedia) },
-      { label: "Install command is present", done: Boolean(form.installCommand.trim()) },
-      { label: "Short pitch is written", done: Boolean(form.pitch.trim()) },
+      { label: "GitHub repository URL is present", done: /^https:\/\/github\.com\/[^/]+\/[^/\s]+/.test(repoUrl.trim()) },
+      { label: "Screenshot or video link is present", done: Boolean(mediaUrls.trim()) },
+      { label: "Install command is present", done: Boolean(installCommand.trim()) },
+      { label: "Short pitch is written", done: Boolean(pitch.trim()) },
     ];
   }
 
