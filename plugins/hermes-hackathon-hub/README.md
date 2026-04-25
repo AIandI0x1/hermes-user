@@ -17,7 +17,7 @@ Discord-centered community plugin review hub.
 Working MVP. The dashboard tab, local plugin card catalog, details view, local
 validation API, and certification-readiness panel are implemented.
 
-![Hackathon Hub dashboard screenshot](screenshots/hackathon-hub-dashboard.png)
+
 
 ## Goal
 
