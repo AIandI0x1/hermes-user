@@ -144,6 +144,21 @@
 .hhh-plugin-row-main {
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.hhh-plugin-row-title {
+  min-width: 0;
+  flex: 1 1 auto;
+  padding-right: 0.75rem;
+}
+
+.hhh-row-status {
+  flex: 0 0 auto;
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .hhh-chip-row {
