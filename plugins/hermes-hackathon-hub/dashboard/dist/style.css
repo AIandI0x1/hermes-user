@@ -16,6 +16,18 @@
   flex-wrap: wrap;
 }
 
+.hhh-title-row {
+  justify-content: space-between;
+}
+
+.hhh-title-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .hhh-actions {
   margin-top: 1rem;
 }
