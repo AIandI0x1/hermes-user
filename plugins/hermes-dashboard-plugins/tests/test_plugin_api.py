@@ -135,3 +135,24 @@ def test_frontend_ownership_status_is_exposed():
     assert "ok" in result
     assert "errors" in result
     assert "plugins" in result
+
+
+def test_catalog_marks_theme_only_plugins(tmp_path):
+    plugin_root = tmp_path / "demo-theme-hub"
+    (plugin_root / "theme").mkdir(parents=True)
+    (plugin_root / "plugin.yaml").write_text(
+        "name: demo-theme-hub\nversion: 0.1.0\ndescription: Demo themes\nkind: theme\n",
+        encoding="utf-8",
+    )
+    (plugin_root / "theme" / "demo.yaml").write_text(
+        "name: demo\nlabel: Demo Theme\n",
+        encoding="utf-8",
+    )
+
+    item = plugin_api._catalog_plugin("user", plugin_root, {"enabled": set(), "disabled": set()})
+
+    assert item is not None
+    assert item["kind"] == "theme"
+    assert item["has_dashboard"] is False
+    assert item["has_theme"] is True
+    assert item["theme_names"] == ["demo"]

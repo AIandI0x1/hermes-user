@@ -19,6 +19,7 @@ DEFAULT_SCAN_ROOTS: tuple[tuple[str, Path], ...] = (
     ("bundled", Path.cwd() / "plugins"),
 )
 SCREENSHOT_SUFFIXES = {".gif", ".jpeg", ".jpg", ".mov", ".mp4", ".png", ".webm"}
+THEME_SUFFIXES = {".yaml", ".yml"}
 ORIGIN_LABELS = {
     "upstream": "Upstream",
     "user": "User",
@@ -146,6 +147,29 @@ def _has_screenshot_assets(root: Path) -> bool:
         path.is_file() and path.suffix.lower() in SCREENSHOT_SUFFIXES
         for path in screenshots_dir.iterdir()
     )
+
+
+def _theme_files(root: Path) -> list[Path]:
+    themes_dir = root / "theme"
+    if not themes_dir.exists() or not themes_dir.is_dir():
+        return []
+    return sorted(
+        (
+            path
+            for path in themes_dir.iterdir()
+            if path.is_file() and path.suffix.lower() in THEME_SUFFIXES
+        ),
+        key=lambda path: path.name.lower(),
+    )
+
+
+def _theme_names(root: Path) -> list[str]:
+    names: list[str] = []
+    for theme_file in _theme_files(root):
+        theme_data, _ = _safe_yaml(theme_file)
+        raw_name = theme_data.get("name") if isinstance(theme_data, dict) else None
+        names.append(str(raw_name or theme_file.stem))
+    return names
 
 
 def _trust_for(errors: list[str], manifest: dict[str, Any] | None) -> dict[str, str]:
@@ -382,6 +406,7 @@ def _catalog_plugin(source: str, root: Path, state: dict[str, set[str]]) -> dict
     plugin_yaml, plugin_error = _safe_yaml(root / "plugin.yaml") if (root / "plugin.yaml").exists() else (None, None)
     manifest = dashboard_manifest or {}
     plugin_cfg = plugin_yaml or {}
+    theme_names = _theme_names(root)
     name = str(plugin_cfg.get("name") or manifest.get("name") or root.name)
     if not name:
         return None
@@ -398,9 +423,11 @@ def _catalog_plugin(source: str, root: Path, state: dict[str, set[str]]) -> dict
         "version": str(plugin_cfg.get("version") or manifest.get("version") or "0.0.0"),
         "source": source,
         "origin": _plugin_origin(source, root, plugin_cfg, manifest),
-        "kind": plugin_cfg.get("kind") or "dashboard",
+        "kind": plugin_cfg.get("kind") or ("theme" if theme_names and dashboard_manifest is None else "dashboard"),
         "enabled": enabled,
         "has_dashboard": dashboard_manifest is not None,
+        "has_theme": bool(theme_names),
+        "theme_names": theme_names,
         "has_backend_api": bool(manifest.get("api")),
         "provides_tools": plugin_cfg.get("provides_tools") if isinstance(plugin_cfg.get("provides_tools"), list) else [],
         "provides_hooks": plugin_cfg.get("provides_hooks") if isinstance(plugin_cfg.get("provides_hooks"), list) else [],

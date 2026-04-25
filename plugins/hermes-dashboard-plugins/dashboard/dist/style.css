@@ -246,6 +246,11 @@
   color: var(--color-warning);
 }
 
+.hhh-chip-theme {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
 .hhh-status-ok {
   color: var(--color-success);
 }
