@@ -25,12 +25,14 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 
 | Plugin | Status | Description |
 | --- | --- | --- |
+| [`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins) | Published | Dashboard sidebar plugin that adds the plugins catalog page and plugin enable controls. |
 | [`plugin-publisher`](plugins/plugin-publisher) | Published | Dashboard plugin for preparing, checking, and publishing Hermes user plugins to GitHub. |
 
 ## Repository Layout
 
 ```text
 plugins/
+  hermes-dashboard-plugins/
   plugin-publisher/
 ```
 
