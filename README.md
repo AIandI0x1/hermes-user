@@ -3,6 +3,8 @@
 Self-contained user plugin collection for Hermes Agent dashboard extensions,
 tools, skills, documentation, and supporting plugin workflows.
 
+![Hermes User Plugins social preview](docs/assets/social-preview-plugin-cubes.png)
+
 This repository is separate from upstream `hermes-agent` source code. Plugins
 published here are user-owned packages. Each plugin folder is intended to be
 portable on its own and should include the files it needs to run, document,
@@ -35,6 +37,10 @@ This collection follows the [Hermes User Plugin Contract](PLUGIN_CONTRACT.md).
 Plugins should be portable folders installed under `~/.hermes/plugins/` or the
 active `<HERMES_HOME>/plugins/` directory, with each plugin owning its own
 frontend, docs, tools, skills, tests, screenshots, and metadata.
+
+For contribution and release flow, see [CONTRIBUTING.md](CONTRIBUTING.md),
+[SECURITY.md](SECURITY.md), and
+[docs/PLUGIN_LIFECYCLE.md](docs/PLUGIN_LIFECYCLE.md).
 
 ## Screenshots
 

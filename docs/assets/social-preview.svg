@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">Hermes User Plugins social preview</title>
+  <desc id="desc">Dark social preview card for the AIandI0x1 hermes-user repository.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#041c1c"/>
+      <stop offset="0.55" stop-color="#082926"/>
+      <stop offset="1" stop-color="#171302"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe6cb"/>
+      <stop offset="0.5" stop-color="#50f2d7"/>
+      <stop offset="1" stop-color="#ffce3a"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.31 0 0 0 0 0.95 0 0 0 0 0.84 0 0 0 0.55 0"/>
+      <feBlend in="SourceGraphic" mode="screen"/>
+    </filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#50f2d7" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+  <circle cx="1040" cy="110" r="260" fill="#50f2d7" opacity="0.08"/>
+  <circle cx="1160" cy="520" r="220" fill="#ffce3a" opacity="0.08"/>
+
+  <g transform="translate(92 82)">
+    <rect x="0" y="0" width="1096" height="476" rx="32" fill="#031313" opacity="0.74" stroke="#50f2d7" stroke-opacity="0.42"/>
+    <path d="M32 96H1064M32 382H1064" stroke="#50f2d7" stroke-opacity="0.18"/>
+
+    <!-- Exact icon geometry from hermes-dashboard-plugins/dashboard/assets/plugin-cubes.svg. -->
+    <g transform="translate(940 150) scale(0.43)" filter="url(#glow)">
+      <g fill="none" stroke="#ffe6cb" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M256 39 379 96 256 153 133 96 256 39Z"/>
+        <path d="M133 96v128l123 64V153L133 96Z"/>
+        <path d="M379 96v128l-123 64V153l123-57Z"/>
+        <path d="M132 224 256 282 132 340 18 282l114-58Z"/>
+        <path d="M18 282v128l114 63V340L18 282Z"/>
+        <path d="M256 282v128l-124 63V340l124-58Z"/>
+        <path d="M380 224 494 282 380 340 256 282l124-58Z"/>
+        <path d="M256 282v128l124 63V340l-124-58Z"/>
+        <path d="M494 282v128l-114 63V340l114-58Z"/>
+      </g>
+    </g>
+
+    <text x="64" y="82" fill="#50f2d7" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="28" letter-spacing="4">AIandI0x1 / hermes-user</text>
+    <text x="64" y="172" fill="#ffe6cb" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="74" font-weight="800">Hermes User Plugins</text>
+    <text x="64" y="240" fill="#e6fff9" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="32">Self-contained dashboard extensions, theme hubs,</text>
+    <text x="64" y="284" fill="#e6fff9" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="32">plugin validation, and publishing workflow.</text>
+
+    <g transform="translate(64 414)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="24">
+      <rect x="0" y="-34" width="208" height="54" rx="8" fill="#50f2d7" opacity="0.12" stroke="#50f2d7" stroke-opacity="0.45"/>
+      <text x="20" y="2" fill="#50f2d7">plugin manager</text>
+      <rect x="232" y="-34" width="164" height="54" rx="8" fill="#ffce3a" opacity="0.12" stroke="#ffce3a" stroke-opacity="0.5"/>
+      <text x="252" y="2" fill="#ffce3a">theme hub</text>
+      <rect x="420" y="-34" width="150" height="54" rx="8" fill="#ffe6cb" opacity="0.12" stroke="#ffe6cb" stroke-opacity="0.45"/>
+      <text x="440" y="2" fill="#ffe6cb">publisher</text>
+    </g>
+  </g>
+</svg>
