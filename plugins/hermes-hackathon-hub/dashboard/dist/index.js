@@ -228,7 +228,7 @@
       repoUrl: "",
       mediaUrls: "",
       installCommand: INSTALL_COMMAND,
-      notes: "MVP does not auto-post to Discord. It generates a review-ready submission and keeps certification claims honest.",
+      notes: "MVP does not auto-post to Discord. It generates a review-ready submission and keeps certification claims honest. This submission draft was made with https://github.com/AIandI0x1/hermes-user/tree/main/plugins/hermes-hackathon-hub.",
     });
 
     function updateForm(key, value) {
