@@ -11,6 +11,8 @@ Hermes core.
 
 Working MVP.
 
+![Plugins catalog screenshot](screenshots/plugins-catalog.png)
+
 - Adds a `Plugins` sidebar entry.
 - Shows plugin cards with `User`, `Upstream`, and `Third Party` origin labels.
 - Enables and disables dashboard plugins through Hermes config.
