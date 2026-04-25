@@ -1,18 +1,42 @@
 # Hermes User Plugins
 
-Self-contained user plugin collection for Hermes Agent dashboard extensions,
-tools, skills, documentation, and supporting plugin workflows.
+Portable userland plugin collection and validation standard for Hermes Agent.
 
-This repository is separate from upstream `hermes-agent` source code. Plugins
-published here are user-owned packages. Each plugin folder is intended to be
-portable on its own and should include the files it needs to run, document,
-test, and expose its dashboard or tool functionality.
+This repository contains self-contained Hermes Agent dashboard extensions,
+tools, skills, docs, examples, and publishing workflows. It is intentionally
+separate from upstream `hermes-agent`: plugins here are user-owned packages that
+can be installed into the local Hermes user plugin folder without modifying
+Hermes core.
 
-Install a plugin by placing its folder in the local Hermes user plugin
-directory:
+![Hermes User Plugins social preview](docs/assets/social-preview-plugin-cubes.png)
 
-```text
-~/.hermes/plugins/<plugin-name>
+## What This Is
+
+- A user plugin collection for Hermes Agent.
+- A dashboard plugin manager and catalog.
+- A hackathon submission assistant for Discord review workflows.
+- A theme hub for discovering and activating dashboard themes.
+- A plugin publisher that audits packages before GitHub publication.
+- A small plugin contract with examples, validation scripts, and CI.
+
+## What This Is Not
+
+- It is not a fork of Hermes Agent core.
+- It is not an official Hermes plugin registry.
+- It does not claim Hermes team certification or signing.
+- It does not expose local dashboard routes to the public internet.
+
+## Quick Install
+
+Install the whole collection, then copy the plugin you want into the active
+Hermes user plugin folder:
+
+```bash
+git clone https://github.com/AIandI0x1/hermes-user.git /tmp/hermes-user
+mkdir -p ~/.hermes/plugins
+cp -R /tmp/hermes-user/plugins/<plugin-name> ~/.hermes/plugins/<plugin-name>
+hermes dashboard --no-open
+curl http://127.0.0.1:9119/api/dashboard/plugins/rescan
 ```
 
 For profile-based Hermes installs, use the active profile's Hermes home:
@@ -21,38 +45,95 @@ For profile-based Hermes installs, use the active profile's Hermes home:
 <HERMES_HOME>/plugins/<plugin-name>
 ```
 
+## Plugins
+
+| Plugin | Status | Purpose |
+| --- | --- | --- |
+| [`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins) | Published | Adds the `/plugins` catalog page, origin labels, validation state, and enable controls. |
+| [`hermes-hackathon-hub`](plugins/hermes-hackathon-hub) | Published | Builds Discord-ready Hermes plugin submissions with readiness checks and honest trust language. |
+| [`hermes-theme-hub`](plugins/hermes-theme-hub) | Published | Discovers installed and plugin-provided dashboard themes, then installs or activates them. |
+| [`plugin-publisher`](plugins/plugin-publisher) | Published | Audits plugin folders and prepares explicit GitHub publishing commands. |
+
+## Screenshots
+
+| Plugins Catalog | Hackathon Hub |
+| --- | --- |
+| ![Plugins catalog](plugins/hermes-dashboard-plugins/screenshots/plugins-catalog.png) | ![Hackathon Hub](plugins/hermes-hackathon-hub/screenshots/hackathon-hub-dashboard.png) |
+
+| Theme Hub | Plugin Publisher |
+| --- | --- |
+| ![Theme Hub](plugins/hermes-theme-hub/screenshots/theme-hub-dashboard.png) | ![Plugin Publisher](plugins/plugin-publisher/screenshots/plugin-publisher-dashboard.png) |
+
+## Validate
+
+Run the repository-level plugin validator before publishing or submitting:
+
+```bash
+python scripts/validate_plugin.py \
+  plugins/hermes-dashboard-plugins \
+  plugins/hermes-hackathon-hub \
+  plugins/hermes-theme-hub \
+  plugins/plugin-publisher
+```
+
+CI runs the same validation workflow on GitHub Actions.
+
 ## Local Dashboard URLs
 
 Dashboard links such as `http://127.0.0.1:9119/plugins`,
 `http://127.0.0.1:9119/theme-hub`, and
 `http://127.0.0.1:9119/hackathon-hub` are local loopback URLs. They are only
 reachable from the machine running `hermes dashboard` and are not public
-support, contact, or remote access endpoints.
+support, contact, webhook, or remote access endpoints.
 
-## Plugins
+## Trust Model
 
-| Plugin | Status | Description |
-| --- | --- | --- |
-| [`hermes-dashboard-plugins`](plugins/hermes-dashboard-plugins) | Published | Dashboard sidebar plugin that adds the Plugins catalog page and plugin enable controls. |
-| [`hermes-hackathon-hub`](plugins/hermes-hackathon-hub) | Published | Dashboard plugin for Hermes hackathon submission validation, Discord drafts, and plugin review workflow. |
-| [`hermes-theme-hub`](plugins/hermes-theme-hub) | Published | Dashboard plugin for discovering, inspecting, installing, and activating Hermes dashboard themes. |
-| [`plugin-publisher`](plugins/plugin-publisher) | Published | User plugin that audits Hermes plugins and prepares GitHub publishing commands. |
+Local validation is useful, but it is not official Hermes certification.
+
+This repository uses conservative trust language:
+
+- `local`: package exists on disk and can be inspected.
+- `locally_validated`: local checks passed.
+- `unsigned`: no official signature is available.
+- `official_verification_unavailable`: Hermes official verification is not yet
+  available for this package.
+
+Do not claim a plugin is certified, signed, or endorsed by the Hermes team
+unless that claim can be verified against an official Hermes trust root.
 
 ## Repository Layout
 
 ```text
-plugins/
-  hermes-dashboard-plugins/
-  hermes-hackathon-hub/
-  hermes-theme-hub/
-  plugin-publisher/
+hermes-user/
+  PLUGIN_CONTRACT.md
+  CONTRIBUTING.md
+  SECURITY.md
+  docs/
+  examples/
+  plugins/
+    hermes-dashboard-plugins/
+    hermes-hackathon-hub/
+    hermes-theme-hub/
+    plugin-publisher/
+  scripts/
+    validate_plugin.py
 ```
 
-Each plugin should own its frontend, docs, tools, skills, tests, and metadata
-inside its own plugin folder. User plugin work should not require direct edits
-to upstream Hermes Agent core files.
+Each plugin owns its frontend, docs, tools, skills, tests, and metadata inside
+its own plugin folder. User plugin behavior should not require direct edits to
+upstream Hermes Agent core files.
 
-## Publishing Rule
+## Plugin Contract
+
+Start here when creating or reviewing a plugin:
+
+- [Plugin contract](PLUGIN_CONTRACT.md)
+- [Plugin lifecycle](docs/PLUGIN_LIFECYCLE.md)
+- [Minimal dashboard plugin example](examples/minimal-dashboard-plugin)
+- [Tool-only plugin example](examples/tool-only-plugin)
+- [Skill-only plugin example](examples/skill-only-plugin)
+
+## Publishing Destination
 
 The canonical destination format for plugins in this repository is:
 
@@ -61,4 +142,11 @@ AIandI0x1/hermes-user/plugins/<plugin-name>
 ```
 
 Before publishing, run the plugin publisher readiness plan and review the secret
-scan, destination path, repo visibility, and generated GitHub commands.
+scan, destination path, repo visibility, screenshots, and generated GitHub
+commands.
+
+## Contributing
+
+Contributions should keep plugin-owned functionality inside the plugin folder
+that owns it. See [CONTRIBUTING.md](CONTRIBUTING.md) and
+[SECURITY.md](SECURITY.md) before opening issues or publishing plugin packages.
