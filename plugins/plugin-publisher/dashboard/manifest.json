@@ -1,0 +1,14 @@
+{
+  "name": "plugin-publisher",
+  "label": "Plugin Publisher",
+  "description": "Adds GitHub publish controls to the Hermes plugins catalog.",
+  "icon": "Upload",
+  "version": "0.1.0",
+  "tab": {
+    "path": "/plugin-publisher",
+    "position": "after:plugins"
+  },
+  "entry": "dist/index.js",
+  "css": "dist/style.css",
+  "api": "plugin_api.py"
+}
