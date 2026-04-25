@@ -1,0 +1,10 @@
+name: hermes-plugin-publisher
+version: 0.1.0
+description: User plugin that audits Hermes plugins and prepares GitHub publishing commands.
+author: 0x1-Main
+license: MIT
+origin: user
+kind: standalone
+provides_tools:
+  - hermes_plugin_publish_plan
+provides_hooks: []
