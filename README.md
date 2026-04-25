@@ -1,14 +1,24 @@
 # Hermes User Plugins
 
-User plugin collection for Hermes Agent dashboard extensions, tools, and
-supporting plugin workflows.
+Self-contained user plugin collection for Hermes Agent dashboard extensions,
+tools, skills, documentation, and supporting plugin workflows.
 
 This repository is separate from upstream `hermes-agent` source code. Plugins
-published here are user-owned packages intended to be installed into a Hermes
-user plugin directory, for example:
+published here are user-owned packages. Each plugin folder is intended to be
+portable on its own and should include the files it needs to run, document,
+test, and expose its dashboard or tool functionality.
+
+Install a plugin by placing its folder in the local Hermes user plugin
+directory:
 
 ```text
 ~/.hermes/plugins/<plugin-name>
+```
+
+For profile-based Hermes installs, use the active profile's Hermes home:
+
+```text
+<HERMES_HOME>/plugins/<plugin-name>
 ```
 
 ## Plugins
@@ -24,9 +34,9 @@ plugins/
   hermes-plugin-publisher/
 ```
 
-Each plugin should own its frontend, docs, tools, skills, and tests inside its
-own plugin folder. User plugin work should not require direct edits to upstream
-Hermes Agent core files.
+Each plugin should own its frontend, docs, tools, skills, tests, and metadata
+inside its own plugin folder. User plugin work should not require direct edits
+to upstream Hermes Agent core files.
 
 ## Publishing Rule
 
